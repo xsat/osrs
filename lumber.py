@@ -9,13 +9,46 @@ from compare import is_same
 
 class Status():
     def __init__(self):
-        self.__is_runing = True
+        self.__is_runing: bool = True
 
     def stop(self) -> None:
-        self.__is_runing = False
+        self.__is_runing: bool = False
 
     def is_runing(self) -> bool:
         return self.__is_runing
+    
+
+class Character():
+    __MIN_MOVE_CHECKS: int = 3
+
+    def __init__(self):
+        self.__in_a_row_move_cheaks: int = 0 # This logic fix move detection on character animation in standing still.
+        self.__current_screenshot: ndarray | None = None
+        self.__last_screenshot: ndarray | None = None
+
+
+    def __is_not_same_screenshots(self) -> bool:
+        if self.__current_screenshot is None or self.__last_screenshot is None:
+            return True
+        
+        return not is_same(self.__current_screenshot, self.__last_screenshot)
+
+
+    def check_move(self) -> None:
+        small_screenshot: ndarray = make_small_screenshot()
+
+        self.__current_screenshot = small_screenshot
+
+        if self.__is_not_same_screenshots():
+            self.__in_a_row_move_cheaks += 1
+        else:
+            self.__in_a_row_move_cheaks = 0
+
+        self.__last_screenshot = small_screenshot
+
+
+    def is_moving(self) -> bool:
+        return self.__in_a_row_move_cheaks >= self.__MIN_MOVE_CHECKS
 
 
 def _find_and_click(image: ndarray, screenshot: ndarray, button: str) -> bool:
@@ -40,16 +73,20 @@ def osrs_lumber() -> None:
 
     found_started_point: bool = False
     found_first_tree: bool = False
-    last_small_screenshot: ndarray | None = None
+
+    character: Character = Character()
 
     while status.is_runing():
         screenshot: ndarray = make_screenshot()
-        small_screenshot: ndarray = make_small_screenshot()
+
+        character.check_move()
+
+        # small_screenshot: ndarray = make_small_screenshot()
         if game == None:
             game: Point | None = find_point(game_image, screenshot)
         
         if game != None:
-            print('Game is running', last_small_screenshot is not None and not is_same(small_screenshot, last_small_screenshot))
+            print('Game is running', character.is_moving())
 
             # print("last_small_screenshot", last_small_screenshot, "small_screenshot", small_screenshot)
             
@@ -76,7 +113,6 @@ def osrs_lumber() -> None:
             #     found_started_point = False
             #     found_first_tree = False
 
-            last_small_screenshot = small_screenshot
 
 if __name__ == "__main__":
     osrs_lumber()
