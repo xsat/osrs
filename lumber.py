@@ -7,11 +7,13 @@ from point import find_point, Point
 from compare import is_same
 
 
-class Status():
+class GameStatus():
     def __init__(self):
         self.__is_runing: bool = True
 
-    def stop(self) -> None:
+        on_middle_click(self.__stop)
+
+    def __stop(self) -> None:
         self.__is_runing: bool = False
 
     def is_runing(self) -> bool:
@@ -26,13 +28,11 @@ class Character():
         self.__current_screenshot: ndarray | None = None
         self.__last_screenshot: ndarray | None = None
 
-
     def __is_not_same_screenshots(self) -> bool:
         if self.__current_screenshot is None or self.__last_screenshot is None:
             return True
         
         return not is_same(self.__current_screenshot, self.__last_screenshot)
-
 
     def check_move(self) -> None:
         small_screenshot: ndarray = make_small_screenshot()
@@ -45,7 +45,6 @@ class Character():
             self.__in_a_row_move_cheaks = 0
 
         self.__last_screenshot = small_screenshot
-
 
     def is_moving(self) -> bool:
         return self.__in_a_row_move_cheaks >= self.__MIN_MOVE_CHECKS
@@ -63,8 +62,8 @@ def _find_and_click(image: ndarray, screenshot: ndarray, button: str) -> bool:
 
 
 def osrs_lumber() -> None:
-    status: Status = Status()
-    on_middle_click(status.stop)
+    game_status: GameStatus = GameStatus()
+    # on_middle_click(status.stop)
 
     game: Point | None = None
     game_image: ndarray = imread('images/game.png', IMREAD_COLOR)
@@ -76,7 +75,7 @@ def osrs_lumber() -> None:
 
     character: Character = Character()
 
-    while status.is_runing():
+    while game_status.is_runing():
         screenshot: ndarray = make_screenshot()
 
         character.check_move()
