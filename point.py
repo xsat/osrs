@@ -6,11 +6,11 @@ from cv2.typing import Point
 _SUCCESSFUL_MATCHED_PERCENT: float = .8
 
 
-def _match_one(image: ndarray, haystack: ndarray) -> Point | None:
+def _match_one(image: ndarray, haystack: ndarray, matched_percent: float) -> Point | None:
     try:
         result: ndarray = matchTemplate(image, haystack, TM_CCOEFF_NORMED)
         _, maxVal, _, maxLoc = minMaxLoc(result)
-        if maxVal >= _SUCCESSFUL_MATCHED_PERCENT:
+        if maxVal >= matched_percent:
             return maxLoc
     except:
         pass
@@ -18,8 +18,8 @@ def _match_one(image: ndarray, haystack: ndarray) -> Point | None:
     return None
 
 
-def find_point(image: ndarray, haystack: ndarray) -> Point | None:
-    matched_point = _match_one(image, haystack)
+def find_point(image: ndarray, haystack: ndarray, matched_percent: float = _SUCCESSFUL_MATCHED_PERCENT) -> Point | None:
+    matched_point = _match_one(image, haystack, matched_percent)
     if matched_point is not None:
         return (
             matched_point[0] + round(image.shape[1] / 2), 

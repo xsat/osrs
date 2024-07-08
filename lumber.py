@@ -1,11 +1,10 @@
 
-from mss import mss
-from mss.base import MSSBase
-from cv2 import imread, IMREAD_COLOR
+from cv2 import imread, IMREAD_COLOR, imshow, waitKey, destroyAllWindows
 from mouse import click, move, on_middle_click, LEFT, RIGHT
-from numpy import ndarray, allclose
-from screenshot import make_screenshot
+from numpy import ndarray
+from screenshot import make_screenshot, make_small_screenshot
 from point import find_point, Point
+from compare import is_same
 
 
 class Status():
@@ -34,7 +33,6 @@ def osrs_lumber() -> None:
     status: Status = Status()
     on_middle_click(status.stop)
 
-    base: MSSBase = mss()
     game: Point | None = None
     game_image: ndarray = imread('images/game.png', IMREAD_COLOR)
     started_point_image: ndarray = imread('lumber/started_point.png', IMREAD_COLOR)
@@ -42,21 +40,28 @@ def osrs_lumber() -> None:
 
     found_started_point: bool = False
     found_first_tree: bool = False
-    last_screenshot: ndarray | None = None
+    last_small_screenshot: ndarray | None = None
 
     while status.is_runing():
+        screenshot: ndarray = make_screenshot()
+        small_screenshot: ndarray = make_small_screenshot()
         if game == None:
-            screenshot: ndarray = make_screenshot(base)
             game: Point | None = find_point(game_image, screenshot)
         
         if game != None:
-            print('Game is started', found_started_point, found_first_tree)
+            print('Game is running', last_small_screenshot is not None and not is_same(small_screenshot, last_small_screenshot))
 
-            print(last_screenshot, screenshot)
+            # print("last_small_screenshot", last_small_screenshot, "small_screenshot", small_screenshot)
             
-            if allclose(last_screenshot, screenshot):
-                print('running')
-                break
+            # if last_small_screenshot is not None and not is_same(small_screenshot, last_small_screenshot):
+            #     print('Player is moving')
+
+            #     imshow("small_screenshot", small_screenshot)
+            #     imshow("last_small_screenshot", last_small_screenshot)
+            #     waitKey(0)
+            #     destroyAllWindows()
+            #     break
+                
 
             # if not found_started_point and _find_and_click(started_point_image, screenshot, LEFT):
             #     found_started_point = True
@@ -71,8 +76,7 @@ def osrs_lumber() -> None:
             #     found_started_point = False
             #     found_first_tree = False
 
-
-        last_screenshot = screenshot
+            last_small_screenshot = small_screenshot
 
 if __name__ == "__main__":
     osrs_lumber()

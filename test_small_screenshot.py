@@ -8,8 +8,8 @@ base: MSSBase = mss()
 WINDOW_WIDTH: int = 1920
 WINDOW_HEIGHT: int = 1080
 
-SCREENSHOT_WIDTH: int = 80
-SCREENSHOT_HEIGHT: int = 80
+SCREENSHOT_WIDTH: int = 70
+SCREENSHOT_HEIGHT: int = 70
 
 MONITOR: tuple[int, int, int, int] = (
     int((WINDOW_WIDTH / 2) - SCREENSHOT_WIDTH), 
