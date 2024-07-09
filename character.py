@@ -29,5 +29,8 @@ class Character():
 
         self.__last_screenshot = small_screenshot
 
+    def make_moving(self) -> None:
+        self.__in_a_row_move_cheaks = self.__MIN_MOVE_CHECKS
+
     def is_moving(self) -> bool:
         return self.__in_a_row_move_cheaks >= self.__MIN_MOVE_CHECKS
