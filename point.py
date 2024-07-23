@@ -3,7 +3,7 @@ from cv2 import matchTemplate, minMaxLoc, TM_CCOEFF_NORMED
 from cv2.typing import Point
 
 
-_SUCCESSFUL_MATCHED_PERCENT: float = .8
+_SUCCESSFUL_MATCHED_PERCENT: float = .7
 
 
 def _match_one(image: ndarray, haystack: ndarray, matched_percent: float) -> Point | None:

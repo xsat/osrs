@@ -1,4 +1,3 @@
-
 from cv2 import imread, IMREAD_COLOR
 from mouse import click, move, LEFT, RIGHT
 from numpy import ndarray
@@ -27,16 +26,29 @@ def _find_and_click(image: ndarray, screenshot: ndarray, button: str) -> bool:
 
 def osrs_lumber() -> None:
     game_image: ndarray = imread('images/game.png', IMREAD_COLOR)
+
+    started_point_image: ndarray = imread('lumber/started_point.png', IMREAD_COLOR)
+
     full_inventory_image: ndarray = imread('lumber/full_inventory.png', IMREAD_COLOR)
     bank_booth_image: ndarray = imread('lumber/bank_booth.png', IMREAD_COLOR)
-    started_point_image: ndarray = imread('lumber/started_point.png', IMREAD_COLOR)
+    bank_booth_2_image: ndarray = imread('lumber/bank_booth_2.png', IMREAD_COLOR)
+    bank_tab_1_image: ndarray = imread('lumber/bank_tab_1.png', IMREAD_COLOR)
+    logs_image: ndarray = imread('lumber/logs.png', IMREAD_COLOR)
+    deposit_all_image: ndarray = imread('lumber/deposit_all.png', IMREAD_COLOR)
+
     first_tree_image: ndarray = imread('lumber/first_tree.png', IMREAD_COLOR)
 
     is_game_opened: bool = False
+
     is_going_to_started_point: bool = False
+
     is_going_to_open_bank: bool = False
-    
+    is_opening_bank: bool = False
+    is_logs_selected: bool = False
+    is_logs_deposited: bool = False
+
     is_going_to_first_tree: bool = False
+
     is_chopping_first_tree: bool = False
 
     game_status: GameStatus = GameStatus()
@@ -58,11 +70,28 @@ def osrs_lumber() -> None:
                     is_going_to_started_point = True
                     character.make_moving()
                     print('going_to_started_point')
+
+
                 elif (not is_going_to_open_bank and _is_found(full_inventory_image, screenshot)
                       and _find_and_click(bank_booth_image, screenshot, LEFT)):
                     is_going_to_open_bank = True
                     character.make_moving()
                     print('going_to_open_bank')
+                elif not is_opening_bank and _find_and_click(bank_booth_2_image, screenshot, LEFT):
+                    is_opening_bank = True
+                    character.make_moving()
+                    print('opening_bank')
+                elif (not is_logs_selected and _is_found(bank_tab_1_image, screenshot) 
+                      and _find_and_click(logs_image, screenshot, RIGHT)):
+                    is_logs_selected = True
+                    character.make_moving()
+                    print('logs_selected')
+                elif not is_logs_deposited and _find_and_click(deposit_all_image, screenshot, LEFT):
+                    is_logs_deposited = True
+                    character.make_moving()
+                    print('logs_deposited')
+
+
                 elif not is_going_to_first_tree and _find_and_click(first_tree_image, screenshot, LEFT):
                     is_going_to_first_tree = True
                     character.make_moving()
@@ -80,8 +109,8 @@ def osrs_lumber() -> None:
                 #     character.make_moving()
                 #     print('reset')
 
-            # if not character.is_moving():
-            #     print("Not moving")
+            if character.is_moving():
+                print("Is moving")
                 
 
 if __name__ == "__main__":
