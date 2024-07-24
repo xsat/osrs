@@ -28,7 +28,9 @@ def high_level_alchemy() -> None:
     game_image: ndarray = imread('images/game.png', IMREAD_COLOR)
 
     magic_image: ndarray = imread('high_level_alchemy/magic.png', IMREAD_COLOR)
-    stack_item_image: ndarray = imread('high_level_alchemy/steel_2h_sword.png', IMREAD_COLOR)
+    steel_2h_sword_image: ndarray = imread('high_level_alchemy/steel_2h_sword.png', IMREAD_COLOR)
+    steel_battleaxe_image: ndarray = imread('high_level_alchemy/steel_battleaxe.png', IMREAD_COLOR)
+    steel_plateskirt_image: ndarray = imread('high_level_alchemy/steel_plateskirt.png', IMREAD_COLOR)
 
     is_game_opened: bool = False
     
@@ -51,7 +53,11 @@ def high_level_alchemy() -> None:
 
                 print('magic_triggered')
 
-            elif not is_stack_item_found and _find_and_click(stack_item_image, screenshot, LEFT):
+            elif not is_stack_item_found and (
+                    _find_and_click(steel_2h_sword_image, screenshot, LEFT) 
+                    or _find_and_click(steel_battleaxe_image, screenshot, LEFT)
+                    or _find_and_click(steel_plateskirt_image, screenshot, LEFT)  
+                ):
                 is_stack_item_found = True
 
                 print('stack_item_found')
