@@ -1,27 +1,9 @@
 from cv2 import imread, IMREAD_COLOR
-from mouse import click, move, LEFT
+from mouse import LEFT
 from numpy import ndarray
 from screenshot import make_screenshot
-from point import find_point, Point
+from match import is_found, find_and_click
 from game_status import GameStatus
-
-
-def _is_found(image: ndarray, screenshot: ndarray) -> bool:
-    found_point: Point | None = find_point(image, screenshot)
-
-    return found_point is not None
-
-
-def _find_and_click(image: ndarray, screenshot: ndarray, button: str) -> bool:
-    found_point: Point | None = find_point(image, screenshot)
-
-    if found_point != None:
-        move(found_point[0], found_point[1])
-        click(button)
-        
-        return True
-
-    return False
 
 
 def high_level_alchemy() -> None:
@@ -44,21 +26,21 @@ def high_level_alchemy() -> None:
         screenshot: ndarray = make_screenshot()
 
         if not is_game_opened:
-            is_game_opened = _is_found(game_image, screenshot)
+            is_game_opened = is_found(game_image, screenshot)
 
             print('game_opened', is_game_opened)
         
         if is_game_opened:
-            if not is_magic_triggered and _find_and_click(magic_image, screenshot, LEFT):
+            if not is_magic_triggered and find_and_click(magic_image, screenshot, LEFT):
                 is_magic_triggered = True
 
                 print('magic_triggered')
 
             elif not is_stack_item_found and (
-                    _find_and_click(steel_2h_sword_image, screenshot, LEFT) 
-                    or _find_and_click(steel_battleaxe_image, screenshot, LEFT)
-                    or _find_and_click(steel_plateskirt_image, screenshot, LEFT)
-                    or _find_and_click(steel_platelegs_image, screenshot, LEFT)  
+                    find_and_click(steel_2h_sword_image, screenshot, LEFT) 
+                    or find_and_click(steel_battleaxe_image, screenshot, LEFT)
+                    or find_and_click(steel_plateskirt_image, screenshot, LEFT)
+                    or find_and_click(steel_platelegs_image, screenshot, LEFT)  
                 ):
                 is_stack_item_found = True
 
