@@ -1,14 +1,14 @@
 from cv2 import imread, IMREAD_COLOR
 from mouse import LEFT, RIGHT
 from numpy import ndarray
-from screenshot import make_screenshot
-from match import is_found, find_and_click
-from game_status import GameStatus
-from character import Character
+from osrs.screenshot import make_screenshot
+from osrs.match import is_found, find_and_click
+from osrs.game_status import GameStatus
+from osrs.character import Character
 
 
 def osrs_lumber() -> None:
-    game_image: ndarray = imread('images/game.png', IMREAD_COLOR)
+    game_image: ndarray = imread('common/game.png', IMREAD_COLOR)
 
     started_point_image: ndarray = imread('lumber/started_point.png', IMREAD_COLOR)
 

@@ -1,6 +1,7 @@
 from numpy import ndarray
-from compare import is_same
-from screenshot import make_small_screenshot
+
+from .compare import is_same
+from .screenshot import make_small_screenshot
 
 
 class Character():
