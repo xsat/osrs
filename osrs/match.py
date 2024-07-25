@@ -1,6 +1,6 @@
 from numpy import ndarray
-from point import find_point, Point
 from mouse import click, move
+from .point import find_point, Point
 
 
 def is_found(image: ndarray, screenshot: ndarray) -> bool:

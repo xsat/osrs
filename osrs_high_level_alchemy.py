@@ -1,13 +1,13 @@
 from cv2 import imread, IMREAD_COLOR
 from mouse import LEFT
 from numpy import ndarray
-from screenshot import make_screenshot
-from match import is_found, find_and_click
-from game_status import GameStatus
+from osrs.screenshot import make_screenshot
+from osrs.match import is_found, find_and_click
+from osrs.game_status import GameStatus
 
 
-def high_level_alchemy() -> None:
-    game_image: ndarray = imread('images/game.png', IMREAD_COLOR)
+def osrs_high_level_alchemy() -> None:
+    game_image: ndarray = imread('common/game.png', IMREAD_COLOR)
 
     magic_image: ndarray = imread('high_level_alchemy/magic.png', IMREAD_COLOR)
     steel_2h_sword_image: ndarray = imread('high_level_alchemy/steel_2h_sword.png', IMREAD_COLOR)
@@ -55,4 +55,4 @@ def high_level_alchemy() -> None:
                 
 
 if __name__ == "__main__":
-    high_level_alchemy()
+    osrs_high_level_alchemy()
