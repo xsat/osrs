@@ -31,6 +31,7 @@ def high_level_alchemy() -> None:
     steel_2h_sword_image: ndarray = imread('high_level_alchemy/steel_2h_sword.png', IMREAD_COLOR)
     steel_battleaxe_image: ndarray = imread('high_level_alchemy/steel_battleaxe.png', IMREAD_COLOR)
     steel_plateskirt_image: ndarray = imread('high_level_alchemy/steel_plateskirt.png', IMREAD_COLOR)
+    steel_platelegs_image: ndarray = imread('high_level_alchemy/steel_platelegs.png', IMREAD_COLOR)
 
     is_game_opened: bool = False
     
@@ -56,7 +57,8 @@ def high_level_alchemy() -> None:
             elif not is_stack_item_found and (
                     _find_and_click(steel_2h_sword_image, screenshot, LEFT) 
                     or _find_and_click(steel_battleaxe_image, screenshot, LEFT)
-                    or _find_and_click(steel_plateskirt_image, screenshot, LEFT)  
+                    or _find_and_click(steel_plateskirt_image, screenshot, LEFT)
+                    or _find_and_click(steel_platelegs_image, screenshot, LEFT)  
                 ):
                 is_stack_item_found = True
 
