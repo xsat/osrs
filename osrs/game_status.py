@@ -18,7 +18,7 @@ class GameStatus():
         self.__is_runing: bool = False
 
     def check_game(self, screenshot: ndarray) -> None:
-        self.__is_opened = is_found(self.__GAME_IMAGE, screenshot)
+        self.__is_opened = self.__is_opened or is_found(self.__GAME_IMAGE, screenshot)
 
     def is_runing(self) -> bool:
         return self.__is_runing
