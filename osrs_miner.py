@@ -14,17 +14,22 @@ MOVING_TO_BANK_STATUS: int = 2
 MOVING_TO_MINING_SITE_STATUS: int = 3
 
 UNDEFINED_ACTION: int = 0
-FROM_1_CHECKPOINT_ACTION: int = 1
-FROM_2_CHECKPOINT_ACTION: int = 2
-FROM_3_CHECKPOINT_ACTION: int = 3
-BANK_BOOTH_ACTION: int = 4
-CLAY_IN_INVENTORY_ACTION: int = 5
-DEPOSIT_ALL_ACTION: int = 6
+# FROM_1_CHECKPOINT_ACTION: int = 1
+# FROM_2_CHECKPOINT_ACTION: int = 2
+# FROM_3_CHECKPOINT_ACTION: int = 3
+# BANK_BOOTH_ACTION: int = 4
+# CLAY_IN_INVENTORY_ACTION: int = 5
+# DEPOSIT_ALL_ACTION: int = 6
 
+FIRST_CHECKPOINT_ACTION: int = 1
+SECOND_CHECKPOINT_ACTION: int = 2
+THIRD_CHECKPOINT_ACTION: int = 3
+BANK_ACTION: int = 4
+MINING_SITE_ACTION: int = 5
 
 def osrs_miner() -> None:
     status: int = MOVING_TO_BANK_STATUS
-    action: int = FROM_1_CHECKPOINT_ACTION
+    action: int = FIRST_CHECKPOINT_ACTION
 
     inventory_is_too_full_image: ndarray = imread('miner/inventory_is_too_full.png', IMREAD_COLOR)
     clay_rocks_image: ndarray = imread('miner/clay_rocks.png', IMREAD_COLOR)
@@ -36,6 +41,12 @@ def osrs_miner() -> None:
     tab_1_image: ndarray = imread('miner/tab_1.png', IMREAD_COLOR)
     clay_in_inventory_image: ndarray = imread('miner/clay_in_inventory.png', IMREAD_COLOR)
     deposit_all_image: ndarray = imread('miner/deposit_all.png', IMREAD_COLOR)
+
+    first_checkpoint_on_map: ndarray = imread('miner/first_checkpoint_on_map.png', IMREAD_COLOR)
+    second_checkpoint_on_map: ndarray = imread('miner/second_checkpoint_on_map.png', IMREAD_COLOR)
+    third_checkpoint_on_map: ndarray = imread('miner/third_checkpoint_on_map.png', IMREAD_COLOR)
+    bank_on_map: ndarray = imread('miner/bank_on_map.png', IMREAD_COLOR)
+    mining_site_on_map: ndarray = imread('miner/mining_site_on_map.png', IMREAD_COLOR)
 
     game_status: GameStatus = GameStatus()
     character: Character = Character()
@@ -52,35 +63,33 @@ def osrs_miner() -> None:
             #     print("Inventory is not full")
             
             if status == MOVING_TO_BANK_STATUS:
-                if action == FROM_1_CHECKPOINT_ACTION and find_and_click(from_1_checkpoint_image, screenshot, LEFT):
-                    print("from_1_checkpoint_image")
-                    action = FROM_2_CHECKPOINT_ACTION
+                if action == FIRST_CHECKPOINT_ACTION and find_and_click(first_checkpoint_on_map, screenshot, LEFT):
+                    print("MOVING_TO_BANK_STATUS:FIRST_CHECKPOINT_ACTION")
 
-                elif action == FROM_2_CHECKPOINT_ACTION and find_and_click(from_2_checkpoint_image, screenshot, LEFT):
-                    print("from_2_checkpoint_image")
-                    action = FROM_3_CHECKPOINT_ACTION
+                    action = SECOND_CHECKPOINT_ACTION
+                elif action == SECOND_CHECKPOINT_ACTION and find_and_click(second_checkpoint_on_map, screenshot, LEFT):
+                    print("MOVING_TO_BANK_STATUS:SECOND_CHECKPOINT_ACTION")
 
-                elif action == FROM_3_CHECKPOINT_ACTION and find_and_click(from_3_checkpoint_image, screenshot, LEFT):
-                    print("from_3_checkpoint_image")
-                    action = BANK_BOOTH_ACTION
+                    action = BANK_ACTION
+                elif action == BANK_ACTION and find_and_click(bank_on_map, screenshot, LEFT):
+                    print("MOVING_TO_BANK_STATUS:BANK_ACTION")
 
-                elif action == BANK_BOOTH_ACTION and find_and_click(bank_booth_image, screenshot, LEFT):
-                    print("bank_booth")
-                    action = CLAY_IN_INVENTORY_ACTION
-                
-                elif action == CLAY_IN_INVENTORY_ACTION and is_found(tab_1_image, screenshot) and find_and_click(clay_in_inventory_image, screenshot, RIGHT):
-                    print("clay_in_inventory_image")
-                    action = DEPOSIT_ALL_ACTION
+                    action = SECOND_CHECKPOINT_ACTION
+                    status = MOVING_TO_MINING_SITE_STATUS
+            elif status == MOVING_TO_MINING_SITE_STATUS:
+                if action == SECOND_CHECKPOINT_ACTION and find_and_click(second_checkpoint_on_map, screenshot, LEFT):
+                    print("MOVING_TO_MINING_SITE_STATUS:SECOND_CHECKPOINT_ACTION")
 
-                elif action == DEPOSIT_ALL_ACTION and find_and_click(deposit_all_image, screenshot, LEFT):
-                    print("deposit_all")
-                    action = UNDEFINED_ACTION
+                    action = FIRST_CHECKPOINT_ACTION
+                elif action == FIRST_CHECKPOINT_ACTION and find_and_click(first_checkpoint_on_map, screenshot, LEFT):
+                    print("MOVING_TO_MINING_SITE_STATUS:FIRST_CHECKPOINT_ACTION")
 
-            # if character.is_moving():
-            #     print("Is moving")
-            # else:
-            #    print("Is not moving") 
-                
+                    action = MINING_SITE_ACTION
+                elif action == MINING_SITE_ACTION and find_and_click(mining_site_on_map, screenshot, LEFT):
+                    print("MOVING_TO_MINING_SITE_STATUS:MINING_SITE_ACTION")
+
+                    action = FIRST_CHECKPOINT_ACTION
+                    status = MOVING_TO_BANK_STATUS
 
 if __name__ == "__main__":
     osrs_miner()
