@@ -24,7 +24,8 @@ You need to setup your game:
 
 ## Installation
 
-With pip:
+With [pip](https://pip.pypa.io/en/stable/installation/):
+
 ```sh
 pip install mouse mss numpy opencv-python
 ```

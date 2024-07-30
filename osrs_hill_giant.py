@@ -1,6 +1,6 @@
 from numpy import ndarray
 from cv2 import imread, IMREAD_COLOR
-from mouse import click, move, LEFT, RIGHT
+from mouse import click, move, LEFT
 
 from osrs.screenshot import make_screenshot
 from osrs.game_status import GameStatus
