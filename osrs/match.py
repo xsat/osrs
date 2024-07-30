@@ -1,5 +1,6 @@
 from numpy import ndarray
 from mouse import click, move
+
 from .point import find_point, Point
 
 
