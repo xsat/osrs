@@ -9,6 +9,7 @@ from osrs.game_status import GameStatus
 
 def osrs_high_level_alchemy() -> None:
     magic_image: ndarray = imread('high_level_alchemy/magic.png', IMREAD_COLOR)
+    steel_platebody_image: ndarray = imread('high_level_alchemy/steel_platebody.png', IMREAD_COLOR)
     steel_2h_sword_image: ndarray = imread('high_level_alchemy/steel_2h_sword.png', IMREAD_COLOR)
     steel_battleaxe_image: ndarray = imread('high_level_alchemy/steel_battleaxe.png', IMREAD_COLOR)
     steel_plateskirt_image: ndarray = imread('high_level_alchemy/steel_plateskirt.png', IMREAD_COLOR)
@@ -30,7 +31,8 @@ def osrs_high_level_alchemy() -> None:
                 print('magic_triggered')
 
             elif not is_stack_item_found and (
-                    find_and_click(steel_2h_sword_image, screenshot, LEFT) 
+                    find_and_click(steel_platebody_image, screenshot, LEFT) 
+                    or find_and_click(steel_2h_sword_image, screenshot, LEFT)
                     or find_and_click(steel_battleaxe_image, screenshot, LEFT)
                     or find_and_click(steel_plateskirt_image, screenshot, LEFT)
                     or find_and_click(steel_platelegs_image, screenshot, LEFT)  
